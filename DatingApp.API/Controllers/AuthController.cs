@@ -28,7 +28,7 @@ namespace DatingApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLoginDto)
         {
-
+            throw new Exception("new exception");
             var userFromRepo = await _repo.Login(userForLoginDto.UserName, userForLoginDto.Password);
 
             if (userFromRepo == null)
@@ -41,12 +41,12 @@ namespace DatingApp.API.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                    new Claim(ClaimTypes.Name, userFromRepo.UserName)
-                }),
+                        new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
+                        new Claim(ClaimTypes.Name, userFromRepo.UserName)
+                    }),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                 SecurityAlgorithms.HmacSha512Signature)
+                SecurityAlgorithms.HmacSha512Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -60,6 +60,7 @@ namespace DatingApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]UserForRegisterDto userForRegisterDto)
         {
+            if(!string.IsNullOrEmpty(userForRegisterDto.UserName))
             userForRegisterDto.UserName = userForRegisterDto.UserName.ToLower();
 
             if (await _repo.UserExists(userForRegisterDto.UserName))
