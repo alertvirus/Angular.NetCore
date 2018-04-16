@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AuthService } from './_services/auth.service';
+import { JwtHelper } from 'angular2-jwt';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  jwtHelper: JwtHelper = new JwtHelper();
+
+  constructor(private authSerivce: AuthService){
+  }
+  ngOnInit(){
+    const token = localStorage.getItem('token');
+    if(token){
+      this.authSerivce.decodedToken = this.jwtHelper.decodeToken(token);
+    }
+  }
 }

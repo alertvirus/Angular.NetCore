@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { error } from 'selenium-webdriver';
 import { collectExternalReferences } from '@angular/compiler/src/output/output_ast';
+import { AlertifyService } from '../_services/alertify.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,16 +12,16 @@ import { collectExternalReferences } from '@angular/compiler/src/output/output_a
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor(private authService: AuthService) { }
+  constructor(public authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
   }
 
   login() {
     this.authService.login(this.model).subscribe(data => {
-      console.log('Logged in successfully');
+      this.alertify.success('Logged in successfully');
     }, error => {
-      console.log('failed to login');
+      this.alertify.error('failed to login');
     });
   }
 
@@ -28,12 +29,11 @@ export class NavComponent implements OnInit {
     this.authService.userToken = null;
     localStorage.removeItem('token');
 
-    console.log("Logged Out");
+    this.alertify.message("Logged Out");
   }
 
   loggedIn(){
-    const token = localStorage.getItem('token');
-    return  !!token;
+    return  this.authService.loggedIn();
   }
   
 }
