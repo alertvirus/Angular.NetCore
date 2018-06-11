@@ -30,13 +30,13 @@
         <li class="dropdown" dropdown>
           <a (click)="false" class="dropdown-toggle" dropdownToggle>Welcome {{authService.decodedToken?.unique_name | titlecase}} <span class="caret"></span></a> <!-- the property of  auth service in component is set to public  -->
           <ul class="dropdown-menu" *dropdownMenu>
-            <li><a href="#"><i class="fa fa-user"></i>Edit Profile</a></li>
+            <li><a [routerLink]="['/member/edit']"><i class="fa fa-user"></i>Edit Profile</a></li>
             <li role="separator" class="divider"></li>
             <li><a (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a></li>
           </ul>
         </li>
       </ul>
-    </div><!--/.navbar-collapse -->
+    </div>
   </div>
   <div></div>
 </nav>
