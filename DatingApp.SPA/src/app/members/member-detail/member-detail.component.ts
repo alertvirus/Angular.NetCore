@@ -36,6 +36,7 @@ export class MemberDetailComponent implements OnInit {
     }];
 
     this.galleryImages = this.getImages();
+    console.log(this.galleryImages);
   }
 
   getImages(){
@@ -43,9 +44,9 @@ export class MemberDetailComponent implements OnInit {
 
     for(let i = 0; i < this.user.photos.length; i++){
       imageUrls.push({
-        small: this.user.photos[i],
-        medium: this.user.photos[i],
-        big: this.user.photos[i],
+        small: this.user.photos[i].url,
+        medium: this.user.photos[i].url,
+        big: this.user.photos[i].url,
         description: this.user.photos[i].description
       });
     }
